@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfg:PlasmaConfiguration  
+    xmlns:cfg="http://www.plasma.org/config">
+  
+    <SDO>
+        <GlobalProvisioning>            
+           <Interface propertyNameStyle="none"/>          
+           <Implementation classNameSuffix="Impl"
+               childPackageName="impl"/>  
+           <QueryDSL>
+               <Implementation classNamePrefix="Q"
+                   childPackageName="query"/>  
+           </QueryDSL>                        
+        </GlobalProvisioning>            
+            
+        <!-- default namespace used for SDO infra itself, such as SDO datatypes -->
+        <DefaultNamespace uri="http://www.magicdraw.com/schemas/Plasma_SDO_Profile.xmi"
+            artifact="http://www.magicdraw.com/schemas/Plasma_SDO_Profile.xmi">
+            <Provisioning packageName="org.cloudgraph.web.sdo"/>
+  		</DefaultNamespace>
+             
+        <!-- BIO XSD -->      
+        <Namespace uri="http://org.cloudgraph/examples/bioxsd"
+            artifact="http://bioxsd.org/BioXSD-1.1"> 
+            <Provisioning packageName="org.cloudgraph.examples.bioxsd"/>
+        </Namespace>
+
+        
+        <DataAccessService dataStoreType="NOSQL">   
+
+            <DataAccessProvider name="HBASE"
+                className="org.cloudgraph.hbase.service.HBaseGraphService">
+                
+                <SequenceConfiguration  
+                    generatorClassName="org.hgraph.generator.HBaseSequenceGenerator"/>         
+                <Concurrency 
+                    pessimisticLockTimeoutMillis="300000"/>
+                              
+                <!-- links specific DAS provisioning to SDO namespace configs -->                 
+                <NamespaceLink uri="http://org.cloudgraph/examples/bioxsd"/>
+            </DataAccessProvider>
+
+  		    	  
+  	    </DataAccessService>	
+    </SDO>
+    
+    <Repository> 
+        <Artifact name="Plasma_SDO_Profile.mdxml"
+            urn="Plasma_SDO_Profile.mdxml" 
+            namespaceUri="http://www.magicdraw.com/schemas/Plasma_SDO_Profile.xmi"/>        
+            
+        <!-- Example Artifacts --> 
+        <Artifact name="BioXSD-1_1.xmi"
+            urn="BioXSD-1_1.mdxml" 
+            namespaceUri="http://bioxsd.org/BioXSD-1.1"/>  
+
+      
+    </Repository>
+    
+</cfg:PlasmaConfiguration>   
